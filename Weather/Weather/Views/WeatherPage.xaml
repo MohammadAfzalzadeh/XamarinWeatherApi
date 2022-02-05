@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="Weather.Views.WeatherPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="cityTxt" Placeholder="City name" PlaceholderColor="Olive" />
+
+            <Button BackgroundColor="#03071e" Clicked="Button_Clicked" 
+                    TextColor="#ffe97f" Text="Search weather"
+                    BorderWidth="5" CornerRadius="15" 
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="Center" 
+                    WidthRequest="150" HeightRequest="50" />
+
+            <Frame BorderColor="Black" BackgroundColor="#212529"
+                     Margin="50"
+                   CornerRadius="10"  HasShadow="True" WidthRequest="500" HeightRequest="300"
+                   VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand">
+
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Frame Grid.Row="0" WidthRequest="100" VerticalOptions="Start" HorizontalOptions="Start"
+                           BackgroundColor="Gray" Padding="2">
+                        <Label WidthRequest="100" Margin="1" x:Name="citylbl"
+                               TextColor="#ffe97f" BackgroundColor="Gray"
+                               Text="{Binding WeatherInfo.Sys.country}"/>
+
+
+                    </Frame>
+
+                    <forms:AnimationView x:Name="WeatherImg" AutoPlay="True"  
+                       Loop="True" 
+                       Grid.Row="1" />
+
+                    <!--VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="Center" WidthRequest="300" HeightRequest="300"-->
+
+
+                    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="End" WidthRequest="500" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid HorizontalOptions="Start" VerticalOptions="End" Grid.Column="0"  WidthRequest="200">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Source="myWind.png" 
+                                   Grid.Column="0" Grid.Row="0"
+                                   WidthRequest="50" HeightRequest="50"
+                                   HorizontalOptions="End" VerticalOptions="Center" />
+
+                            <Label x:Name="WindSpeed" 
+                                   Text=
+                                        "{Binding WeatherInfo.wind.speed, StringFormat='{0:f2} m/s'}"
+                                    
+                                   Grid.Column="1" Grid.Row="0" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   TextColor="#ffe97f"/>
+
+                            <Image Source="winddeg.png" 
+                                   Grid.Column="0" Grid.Row="1"
+                                   WidthRequest="50" HeightRequest="50"
+                                   HorizontalOptions="End" VerticalOptions="Center" />
+
+                            <Label x:Name="WindDeg" 
+                                   Text="{Binding WeatherInfo.wind.deg }"
+                                   Grid.Column="1" Grid.Row="1" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   TextColor="#ffe97f"/>
+
+                            <Image Source="c.png" 
+                                   Grid.Column="0" Grid.Row="2"
+                                   WidthRequest="50" HeightRequest="50"
+                                   HorizontalOptions="End" VerticalOptions="Center" />
+
+                            <Label x:Name="Cloud"  
+                                   Text="{Binding WeatherInfo.clouds.all  , StringFormat='{0:f2} %'}"
+                                   Grid.Column="1" Grid.Row="2" 
+                                   HorizontalOptions="Start" VerticalOptions="Center" 
+                                   TextColor="#ffe97f"/>
+
+                        </Grid>
+
+                        <Label x:Name="tempracherlbl" 
+                               Text="{Binding WeatherInfo.main.temprature }"
+                               Grid.Column="1" TextColor="#ffe97f"
+                               HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                               FontSize="40"/>
+                    </Grid>
+
+                </Grid>
+
+
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
