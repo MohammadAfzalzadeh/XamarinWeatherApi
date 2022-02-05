@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"  
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+                 xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"  
+                 CloseWhenBackgroundIsClicked="True"  
+                 x:Class="Weather.Views.Popup.ErrPopupPage">
+    <popup:PopupPage.Content>
+        <StackLayout Padding="10"  
+                     BackgroundColor="White"  
+                     HorizontalOptions="Center"  
+                     VerticalOptions="Center">
+            <!--<ActivityIndicator/>-->
+            <Label  x:Name="errlbl"
+                Text="Fresh MVVM Rg.Plugin.Popup"
+                   TextColor="Red"
+                VerticalOptions="CenterAndExpand"   
+                HorizontalOptions="CenterAndExpand" />
+            <Button Clicked="Button_Clicked" 
+                    Text="Ok"/>
+        </StackLayout>
+    </popup:PopupPage.Content>
+</popup:PopupPage> 
