@@ -10,7 +10,19 @@ namespace Weather.Models
         public string main { get; set; }
         public string description { get; set; }
 
-        public string icon { get; set; }
+        private string _icon { get; set; }
+        public string icon {
+            get {
+                return _icon;
+            }
+            set {
+                _icon = value;
+                fullAddresIcon = "https://openweathermap.org/img/wn/"
+                            + value + "@2x.png";
+            }
+        }
+
+        public string fullAddresIcon { get; set; }
 
     }
 }
