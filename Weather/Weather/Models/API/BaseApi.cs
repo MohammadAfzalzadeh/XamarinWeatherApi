@@ -21,27 +21,38 @@ namespace Weather.Models.API
         {
             this.url = url;
             getParameters = new Dictionary<string, string>();
+            
+            postParameters = new Dictionary<string, string>();
+
+            headers = new Dictionary<string, string>();
         }
 
         protected async Task<T> sendGetReqAndDeserialize()
         {
 
-            HttpClient client = new HttpClient();
             HttpRequestMessage requestMessage = new HttpRequestMessage(
                     HttpMethod.Get,
                     url + "?" + getParametersToString() 
                     );
 
             addHeaders(requestMessage);
-                        
-            using (HttpResponseMessage response = await client.SendAsync(requestMessage))
-            {
-                response.EnsureSuccessStatusCode();
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>
-                    (await response.Content.ReadAsStringAsync());
-            }
+
+            return await sendRequset(requestMessage);
+
         }
 
+        protected async Task<T> sendPostRequestAndDeserialize()
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage(
+                    HttpMethod.Post, url);
+
+            requestMessage.Content = new FormUrlEncodedContent(postParameters);
+
+            addHeaders(requestMessage);
+
+            return await sendRequset(requestMessage);
+            
+        }
 
         //get string of your getParameter
         private string getParametersToString()
@@ -64,26 +75,18 @@ namespace Weather.Models.API
                 request.Headers.Add(header.Key, header.Value);
         }
 
-        protected async Task<string> sendPostRequest()
+
+        private static async Task<T> sendRequset(HttpRequestMessage request)
         {
             HttpClient client = new HttpClient();
-            HttpRequestMessage requestMessage = new HttpRequestMessage(
-                    HttpMethod.Post,
-                    url 
-                    );
 
-            requestMessage.Content = new FormUrlEncodedContent(postParameters);
-
-            addHeaders(requestMessage);
-
-            using (HttpResponseMessage response = await client.SendAsync(requestMessage))
+            using (HttpResponseMessage response = await client.SendAsync(request))
             {
                 response.EnsureSuccessStatusCode();
-                //Newtonsoft.Json.JsonConvert.DeserializeObject<T>
-                //    (await response.Content.ReadAsStringAsync());
-
-                return await response.Content.ReadAsStringAsync();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>
+                     (await response.Content.ReadAsStringAsync());
             }
+
         }
 
     }
