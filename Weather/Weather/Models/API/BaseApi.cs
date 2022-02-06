@@ -13,6 +13,10 @@ namespace Weather.Models.API
 
         protected IDictionary<string, string> getParameters;
 
+        protected IDictionary<string , string> postParameters;
+
+        protected IDictionary<string , string> headers;
+
         public BaseApi(string url)
         {
             this.url = url;
@@ -25,8 +29,11 @@ namespace Weather.Models.API
             HttpClient client = new HttpClient();
             HttpRequestMessage requestMessage = new HttpRequestMessage(
                     HttpMethod.Get,
-                    url + "?" + getParametersToString()
+                    url + "?" + getParametersToString() 
                     );
+
+            addHeaders(requestMessage);
+                        
             using (HttpResponseMessage response = await client.SendAsync(requestMessage))
             {
                 response.EnsureSuccessStatusCode();
@@ -49,6 +56,34 @@ namespace Weather.Models.API
                 paras = paras.Remove(paras.Length - 1, 1);
 
             return paras;
+        }
+
+        private void addHeaders(HttpRequestMessage request)
+        {
+            foreach (KeyValuePair<string, string> header in headers)
+                request.Headers.Add(header.Key, header.Value);
+        }
+
+        protected async Task<string> sendPostRequest()
+        {
+            HttpClient client = new HttpClient();
+            HttpRequestMessage requestMessage = new HttpRequestMessage(
+                    HttpMethod.Post,
+                    url 
+                    );
+
+            requestMessage.Content = new FormUrlEncodedContent(postParameters);
+
+            addHeaders(requestMessage);
+
+            using (HttpResponseMessage response = await client.SendAsync(requestMessage))
+            {
+                response.EnsureSuccessStatusCode();
+                //Newtonsoft.Json.JsonConvert.DeserializeObject<T>
+                //    (await response.Content.ReadAsStringAsync());
+
+                return await response.Content.ReadAsStringAsync();
+            }
         }
 
     }
