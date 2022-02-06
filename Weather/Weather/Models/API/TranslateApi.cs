@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Weather.Models.API
 {
-    public class TranslateApi : BaseApi<WeatherInfo>
+    public class TranslateApi : BaseApi<TranslateInfo>
     {
         public TranslateApi() : base("https://google-translate1.p.rapidapi.com/language/translate/v2")
         {
@@ -23,10 +23,11 @@ namespace Weather.Models.API
         {
             postParameters.Add("q", phrase);
             postParameters.Add("target", targetLanguage);
-            if (srcLanguage != null || srcLanguage != "")
+            if (srcLanguage != null && srcLanguage != "")
                 postParameters.Add("source", srcLanguage);
 
-            return await sendPostRequest();
+            TranslateInfo translateInfo = await sendPostRequestAndDeserialize();
+            return translateInfo.data.translations[0].translatedText;
 
         }
 
