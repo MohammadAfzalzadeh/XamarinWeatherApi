@@ -8,10 +8,12 @@ using Weather.Models.API;
 
 namespace Weather.ViewModels
 {
-    public class WeatherVM : INotifyPropertyChanged
+    public class WeatherVM : BaseVM
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public WeatherVM()
+        {
+        }
 
         public WeatherInfo WeatherInfo
         {
@@ -26,15 +28,6 @@ namespace Weather.ViewModels
             }
         }
         private WeatherInfo _weatherInfo { get; set; }
-
-        public WeatherVM()
-        {
-        }
-
-        void onPropertyChange(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
 
 
         public async System.Threading.Tasks.Task setWeatherInfoAsync(string city)
